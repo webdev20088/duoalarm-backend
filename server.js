@@ -8,12 +8,18 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// 🔥 Load service account
-const serviceAccount = require("./serviceAccountKey.json");
+// 🔥 REMOVE this line ❌
+// const serviceAccount = require("./serviceAccountKey.json");
+
 const fetch = require("node-fetch");
 
+// 🔥 NEW Firebase config using environment variables
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  }),
 });
 
 // 🔥 API to send alarm
