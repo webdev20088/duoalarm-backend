@@ -27,11 +27,12 @@ app.post("/sendAlarm", async (req, res) => {
   const { token, sender } = req.body;
 
   const message = {
-    token: token,
-    data: {
-      sender: sender,
-    },
-  };
+  token: token,
+  data: {
+    sender: sender,
+    type: req.body.type || "alarm" // 🔥 ADD THIS
+  },
+};
 
   try {
     await admin.messaging().send(message);
